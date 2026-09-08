@@ -26,7 +26,7 @@ async def change_metadata(input_file, output_file, metadata):
         elif stream['codec_type'] == 'subtitle' and subtitle_title:
             cmd.extend([f'-metadata:s:{stream["index"]}', f'title={subtitle_title}'])
 
-    cmd.extend(['-metadata', f'comment=Added by @TechifyBots'])
+    cmd.extend(['-metadata', f'comment=Added by @Hari_Moviez'])
     cmd.extend(['-f', 'matroska']) # support all format 
     cmd.append(output_file)
     print(cmd)
