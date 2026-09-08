@@ -65,7 +65,7 @@ async def see_prefix(client, message):
 @Client.on_message(filters.private & filters.command('setsuffix'))
 async def add_suffix(client, message):
     if len(message.command) == 1:
-        return await message.reply_text("**__Give The Suffix__\n\nExᴀᴍᴩʟᴇ:- `/setsuffix @TechifyBots`**")
+        return await message.reply_text("**__Give The Suffix__\n\nExᴀᴍᴩʟᴇ:- `/setsuffix @Hari_Moviez`**")
     suffix = message.text.split(" ", 1)[1]
     RknDev = await message.reply_text("Please Wait ...", reply_to_message_id=message.id)
     await digital_botz.set_suffix(message.from_user.id, suffix)
@@ -93,7 +93,7 @@ async def see_suffix(client, message):
 async def add_caption(client, message):
     rkn = await message.reply_text("__**ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ**__")
     if len(message.command) == 1:
-       return await rkn.edit("**__Gɪᴠᴇ Tʜᴇ Cᴀᴩᴛɪᴏɴ__\n\nExᴀᴍᴩʟᴇ:- `/setcaption {filename}\n\n💾 Sɪᴢᴇ: {filesize}\n\n⏰ Dᴜʀᴀᴛɪᴏɴ: {duration}\n**By: @TechifyBots`**")
+       return await rkn.edit("**__Gɪᴠᴇ Tʜᴇ Cᴀᴩᴛɪᴏɴ__\n\nExᴀᴍᴩʟᴇ:- `/setcaption {filename}\n\n💾 Sɪᴢᴇ: {filesize}\n\n⏰ Dᴜʀᴀᴛɪᴏɴ: {duration}\n**By: @Hari_Moviez`**")
     caption = message.text.split(" ", 1)[1]
     await digital_botz.set_caption(message.from_user.id, caption=caption)
     await rkn.edit("__**✅ Cᴀᴩᴛɪᴏɴ Sᴀᴠᴇᴅ**__")
@@ -333,7 +333,7 @@ async def cb_handler(client, query: CallbackQuery):
             text=rkn.DEV_TXT,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton("💞 sᴏᴜʀᴄᴇ ᴄᴏᴅᴇ 💞", url="https://github.com/TechifyBots/Rename-Bot")
+                InlineKeyboardButton("💞 sᴏᴜʀᴄᴇ ᴄᴏᴅᴇ 💞", url="https://t.me/Hari_moviez")
             ],[
                 InlineKeyboardButton("ᴄʟᴏꜱᴇ", callback_data = "close"),
                 InlineKeyboardButton("ʙᴀᴄᴋ", callback_data = "about")
