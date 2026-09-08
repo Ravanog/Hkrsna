@@ -14,7 +14,7 @@ class Config(object):
     
     # database config
     DB_NAME = os.environ.get("DB_NAME", "HK_Rename_Bot")     
-    DB_URL = os.environ.get("DB_URL", "")
+    DB_URL = os.environ.get("DB_URL", "mongodb+srv://anikush8310_db_user:rename@cluster0.yntj9n5.mongodb.net/?appName=Cluster0")
  
     # other configs
     PIC = os.environ.get("PIC", "https://files.catbox.moe/1k75t8.jpg")
