@@ -23,6 +23,8 @@ upgrade_trial_button = InlineKeyboardMarkup([[
 @Client.on_message(filters.private & filters.command("start"))
 async def start(client, message):
     start_button = [[
+		InlineKeyboardButton('ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use this bot to rename your 2GB files')
+	],[
         InlineKeyboardButton('ᴀʙᴏᴜᴛ', callback_data='about'),
         InlineKeyboardButton('ʜᴇʟᴘ', callback_data='help')       
          ]]
@@ -199,6 +201,8 @@ async def cb_handler(client, query: CallbackQuery):
     data = query.data 
     if data == "start":
         start_button = [[
+        InlineKeyboardButton('ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use this bot to rename your 2GB files')
+	],[
         InlineKeyboardButton('ᴀʙᴏᴜᴛ', callback_data='about'),
         InlineKeyboardButton('ʜᴇʟᴘ', callback_data='help')       
          ]]
@@ -215,11 +219,10 @@ async def cb_handler(client, query: CallbackQuery):
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup([[
                 #⚠️ don't change source code & source link ⚠️ #
+				InlineKeyboardButton("ꜰɪʟᴇ ɴᴀᴍᴇ", callback_data = "custom_file_name"),
+                ],[
                 InlineKeyboardButton("ᴛʜᴜᴍʙɴᴀɪʟ", callback_data = "thumbnail"),
                 InlineKeyboardButton("ᴄᴀᴘᴛɪᴏɴ", callback_data = "caption")
-                ],[
-                InlineKeyboardButton("ꜰɪʟᴇ ɴᴀᴍᴇ", callback_data = "custom_file_name"),
-                InlineKeyboardButton("ᴍᴇᴛᴀᴅᴀᴛᴀ", callback_data = "digital_meta_data")
                 ],[
                 InlineKeyboardButton("ʙᴀᴄᴋ", callback_data = "start")
                 ]]))         
