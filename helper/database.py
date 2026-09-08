@@ -22,7 +22,7 @@ class Database:
             uploadlimit=Config.FREE_UPLOAD_LIMIT,
             daily=0,
             metadata_mode=False,
-            metadata_code="--change-title @TechifyBots\n--change-video-title @TechifyBots\n--change-audio-title @TechifyBots\n--change-subtitle-title @TechifyBots\n--change-author @TechifyBots",
+            metadata_code="--change-title @Hari_Moviez\n--change-video-title @Hari_Moviez\n--change-audio-title @Hari_Moviez\n--change-subtitle-title @Hari_Moviez\n--change-author @Hari_Moviez",
             expiry_time=None,
             has_free_trial=False,
             ban_status=dict(
