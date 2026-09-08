@@ -131,13 +131,13 @@ V𝟹.𝟶.𝟶 [STABLE]"""
 
 ☞ Fᴏʀ Exᴀᴍᴘʟᴇ:-
 
-`--change-title @TechifyBots
---change-video-title @TechifyBots
---change-audio-title @TechifyBots
---change-subtitle-title @TechifyBots
---change-author @TechifyBots`
+`--change-title @Hari_Moviez
+--change-video-title @Hari_Moviez
+--change-audio-title @Hari_Moviez
+--change-subtitle-title @Hari_Moviez
+--change-author @Hari_Moviez`
 
-📥 Fᴏʀ Hᴇʟᴘ Cᴏɴᴛ. @TechifyBots"""
+📥 Fᴏʀ Hᴇʟᴘ Cᴏɴᴛ. @Hari_Moviez"""
     
     CUSTOM_FILE_NAME = """<u>🖋️ Custom File Name</u>
 
@@ -150,29 +150,27 @@ you can pre-add a prefix and suffix along with your new filename
 ➢ /seesuffix - Tᴏ Sᴇᴇ Yᴏᴜʀ Sᴜғғɪx !!
 ➢ /delsuffix - Tᴏ Dᴇʟᴇᴛᴇ Yᴏᴜʀ Sᴜғғɪx !!
 
-Exᴀᴍᴩʟᴇ:- `/setsuffix @TechifyBots`
-Exᴀᴍᴩʟᴇ:- `/setprefix @TechifyBots`"""
+Exᴀᴍᴩʟᴇ:- `/setsuffix @Hari_Moviez`
+Exᴀᴍᴩʟᴇ:- `/setprefix @Hari_Moviez`"""
 
     DEV_TXT = """<b><u>Sᴩᴇᴄɪᴀʟ Tʜᴀɴᴋꜱ & Dᴇᴠᴇʟᴏᴩᴇʀꜱ</b></u>
     
-» 𝗦𝗢𝗨𝗥𝗖𝗘 𝗖𝗢𝗗𝗘 : <a href=https://github.com/TechifyBots/Rename-Bot>Rename-Bot</a>
+» 𝗦𝗢𝗨𝗥𝗖𝗘 𝗖𝗢𝗗𝗘 : <a href=https://t.me/harikushal</a>
 
-• ❣️ <a href=https://github.com/RknDeveloper>RknDeveloper</a>
-• ❣️ <a href=https://github.com/DigitalBotz>DigitalBotz</a>
-• ❣️ <a href=https://github.com/TechifyBots>TechifyBots</a>"""
-
+• ❣️ <a href=https://t.me/harikushal>HariKushal</a>"""
+    
     SEND_METADATA = """
 ❪ SET CUSTOM METADATA ❫
 
 ☞ Fᴏʀ Exᴀᴍᴘʟᴇ:-
 
-`--change-title @TechifyBots
---change-video-title @TechifyBots
---change-audio-title @TechifyBots
---change-subtitle-title @TechifyBots
---change-author @TechifyBots`
+`--change-title @Hari_Moviez
+--change-video-title @Hari_Moviez
+--change-audio-title @Hari_Moviez
+--change-subtitle-title @Hari_Moviez
+--change-author @Hari_Moviez`
 
-📥 Fᴏʀ Hᴇʟᴘ Cᴏɴᴛ. @TechifyBots
+📥 Fᴏʀ Hᴇʟᴘ Cᴏɴᴛ. @Hari_Moviez
 """
     
     PROGRESS = """<b>
