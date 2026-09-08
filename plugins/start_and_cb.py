@@ -230,7 +230,7 @@ async def cb_handler(client, query: CallbackQuery):
         InlineKeyboardButton("sᴏᴜʀᴄᴇ", callback_data = "source_code"), #Whoever is deploying this repo is given a warning ⚠️ not to remove this repo link #first & last warning ⚠️
         InlineKeyboardButton("ʙᴏᴛ sᴛᴀᴛᴜs", callback_data = "bot_status")
         ],[
-        InlineKeyboardButton("ʟɪᴠᴇ sᴛᴀᴛᴜs", callback_data = "live_status")           
+        InlineKeyboardButton("ʟɪᴠᴇ sᴛᴀᴛᴜs", url='https://thoughtful-tammy-chandru123-2fdc8ef3.koyeb.app')           
         ]]
         if client.premium:
             about_button[-1].append(InlineKeyboardButton("ᴜᴘɢʀᴀᴅᴇ", callback_data = "upgrade"))
