@@ -17,7 +17,7 @@ class Config(object):
     DB_URL = os.environ.get("DB_URL", "")
  
     # other configs
-    PIC = os.environ.get("PIC", "https://i.ibb.co/YTk9gzhY/IMG-20250906-144306-804.jpg")
+    PIC = os.environ.get("PIC", "https://files.catbox.moe/1k75t8.jpg")
     ADMIN = int(os.environ.get("ADMIN", "7253187871"))
     LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "-1002056822145"))
 
