@@ -18,8 +18,8 @@ class Config(object):
  
     # other configs
     PIC = os.environ.get("PIC", "https://i.ibb.co/YTk9gzhY/IMG-20250906-144306-804.jpg")
-    ADMIN = int(os.environ.get("ADMIN", "1255023013"))
-    LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", ""))
+    ADMIN = int(os.environ.get("ADMIN", "7253187871"))
+    LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "-1002056822145"))
 
     # free upload limit 
     FREE_UPLOAD_LIMIT = 6442450944 # calculation 6*1024*1024*1024=results
@@ -30,8 +30,8 @@ class Config(object):
     
     #force subs
     IS_FSUB = os.environ.get("IS_FSUB", "True").lower() == "true"  # Set "True" For Enable Force Subscribe
-    AUTH_CHANNELS = list(map(int, os.environ.get("AUTH_CHANNELS", "").split())) # Add Multiple channel ids
-    AUTH_REQ_CHANNELS = list(map(int, os.environ.get("AUTH_REQ_CHANNELS", "").split())) # Add Multiple channel ids
+    AUTH_CHANNELS = list(map(int, os.environ.get("AUTH_CHANNELS", "-1002440757122 -1001966939371").split())) # Add Multiple channel ids
+    AUTH_REQ_CHANNELS = list(map(int, os.environ.get("AUTH_REQ_CHANNELS", "-1002440757122 -1001966939371").split())) # Add Multiple channel ids
     FSUB_EXPIRE = int(os.environ.get("FSUB_EXPIRE", 0))  # minutes, 0 = no expiry
         
     # wes response configuration     
