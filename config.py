@@ -4,16 +4,16 @@ id_pattern = re.compile(r'^.\d+$')
 
 class Config(object):
 
-    API_ID = os.environ.get("API_ID", "")
-    API_HASH = os.environ.get("API_HASH", "")
-    BOT_TOKEN = os.environ.get("BOT_TOKEN", "") 
+    API_ID = os.environ.get("API_ID", "15671595")
+    API_HASH = os.environ.get("API_HASH", "bb8f36f9c39a24c7f8b2acbc7ea8c60a")
+    BOT_TOKEN = os.environ.get("BOT_TOKEN", "7252295382:AAGsfB57ZeH_M-0jQNAAAXam4sI4Ke_Psv4") 
     BOT = None
 
     # premium account string session required 😢 
     STRING_SESSION = os.environ.get("STRING_SESSION", "")
     
     # database config
-    DB_NAME = os.environ.get("DB_NAME", "Rename_Bot")     
+    DB_NAME = os.environ.get("DB_NAME", "HK_Rename_Bot")     
     DB_URL = os.environ.get("DB_URL", "")
  
     # other configs
