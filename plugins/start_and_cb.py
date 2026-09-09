@@ -23,7 +23,7 @@ upgrade_trial_button = InlineKeyboardMarkup([[
 @Client.on_message(filters.private & filters.command("start"))
 async def start(client, message):
     start_button = [[
-		InlineKeyboardButton('ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use this bot to rename your 2GB files')
+		InlineKeyboardButton('ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use%20this%20bot%20to%20rename%20your%202GB%20files')
 	],[
         InlineKeyboardButton('ᴀʙᴏᴜᴛ', callback_data='about'),
         InlineKeyboardButton('ʜᴇʟᴘ', callback_data='help')       
@@ -40,7 +40,7 @@ async def start(client, message):
 @Client.on_message(filters.private & filters.command('setprefix'))
 async def add_prefix(client, message):
     if len(message.command) == 1:
-        return await message.reply_text("**__Give The Prefix__\n\nExᴀᴍᴩʟᴇ:- `/setprefix @TechifyBots`**")
+        return await message.reply_text("**__Give The Prefix__\n\nExᴀᴍᴩʟᴇ:- `/setprefix @Hari_Moviez`**")
     prefix = message.text.split(" ", 1)[1]
     RknDev = await message.reply_text("Please Wait ...", reply_to_message_id=message.id)
     await digital_botz.set_prefix(message.from_user.id, prefix)
@@ -201,7 +201,7 @@ async def cb_handler(client, query: CallbackQuery):
     data = query.data 
     if data == "start":
         start_button = [[
-        InlineKeyboardButton('ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use this bot to rename your 2GB files')
+        InlineKeyboardButton('ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use%20this%20bot%20to%20rename%20your%202GB%20files')
 	],[
         InlineKeyboardButton('ᴀʙᴏᴜᴛ', callback_data='about'),
         InlineKeyboardButton('ʜᴇʟᴘ', callback_data='help')       
