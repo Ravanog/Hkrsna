@@ -190,7 +190,7 @@ async def get_fsub(bot: Client, message: Message) -> bool:
     return False
 
 
-@Client.on_message(filters.private & ~filters.user(Config.ADMIN) & ~filters.bot & ~filters.service & ~filters.me, group=-10)
+@Client.on_message(filters.private & ~filters.user(Config.ADMIN) & ~filters.bot & ~filters.service & ~filters.me & ~filters.command("start"), group=-10)
 async def global_fsub_checker(client: Client, message: Message):
     if not Config.IS_FSUB:
         return
