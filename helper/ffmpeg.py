@@ -1,6 +1,40 @@
+import os
+import asyncio
 import os, time, asyncio, subprocess, json
 from helper.utils import metadata_text
 
+
+async def take_screen_shot(input_file, video_file, output_directory, ttl):
+    """
+    Takes a screenshot from a video file using ffmpeg.
+    :param video_file: Path to the video file
+    :param output_directory: Where to save the screenshot
+    :param ttl: Time in seconds (timestamp) to take the screenshot
+    """
+    out_image_path = os.path.join(output_directory, f"{os.path.basename(video_file)}_{ttl}.jpg")
+    
+    # FFmpeg command to extract a frame at a specific timestamp (ttl)
+    command = [
+        "ffmpeg",
+        "-ss", str(ttl),
+        "-i", input_file,
+        "-vframes", "1",
+        "-q:v", "2",
+        out_image_path,
+        "-y"
+    ]
+    
+    process = await asyncio.create_subprocess_exec(
+        *command,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE
+    )
+    await process.communicate()
+    
+    if os.path.exists(out_image_path):
+        return out_image_path
+    return None
+    
 async def change_metadata(input_file, output_file, metadata):
     author, title, video_title, audio_title, subtitle_title = await metadata_text(metadata)
     output = subprocess.check_output(['ffprobe', '-v', 'error', '-show_streams', '-print_format', 'json', input_file])
