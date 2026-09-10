@@ -4,6 +4,46 @@ import os, time, asyncio, subprocess, json
 from helper.utils import metadata_text
 
 
+async def generate_video_sample(video_file, output_directory, start_time=60, duration=30):
+    """
+    Generates a short video sample/teaser using ffmpeg.
+    :param video_file: Path to the original video file
+    :param output_directory: Directory to save the sample
+    :param start_time: Where to start the sample clip in seconds
+    :param duration: Duration of the sample clip in seconds
+    """
+    os.makedirs(output_directory, exist_ok=True)
+    out_sample_path = os.path.join(output_directory, f"sample_{os.path.basename(video_file)}")
+    
+    # FFmpeg command to cut a sample clip quickly and re-encode/copy streams safely
+    command = [
+        "ffmpeg",
+        "-ss", str(start_time),
+        "-i", video_file,
+        "-t", str(duration),
+        "-c:v", "libx264",
+        "-preset", "ultrafast",
+        "-c:a", "aac",
+        out_sample_path,
+        "-y"
+    ]
+    
+    try:
+        process = await asyncio.create_subprocess_exec(
+            *command,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
+        await process.communicate()
+        
+        if os.path.exists(out_sample_path) and os.path.getsize(out_sample_path) > 0:
+            return out_sample_path
+    except Exception as e:
+        print(f"FFmpeg Sample Error: {e}")
+        
+    return None
+    
+
 async def take_screen_shot(video_file, output_directory, ttl):
     """
     Takes a screenshot from a video file using ffmpeg.
