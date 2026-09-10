@@ -4,7 +4,7 @@ import os, time, asyncio, subprocess, json
 from helper.utils import metadata_text
 
 
-async def take_screen_shot(input_file, video_file, output_directory, ttl):
+async def take_screen_shot(video_file, output_directory, ttl):
     """
     Takes a screenshot from a video file using ffmpeg.
     :param video_file: Path to the video file
@@ -17,7 +17,7 @@ async def take_screen_shot(input_file, video_file, output_directory, ttl):
     command = [
         "ffmpeg",
         "-ss", str(ttl),
-        "-i", input_file,
+        "-i", video_file,
         "-vframes", "1",
         "-q:v", "2",
         out_image_path,
