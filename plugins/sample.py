@@ -78,7 +78,7 @@ async def generate_sample_handler(client: Client, message: Message):
         await client.send_video(
             chat_id=message.chat.id,
             video=sample_path,
-            caption="🎬 **Sample / Teaser Clip**\n⚡ **Powered by Hari_Moviez**",
+            caption="🎬 **Sample / Teaser Clip**\n⚡ **Powered by @Hari_Moviez**",
             supports_streaming=True
         )
         
