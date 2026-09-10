@@ -69,10 +69,10 @@ async def generate_screenshots(client: Client, message: Message):
         if not video_path or not os.path.exists(video_path):
             return await m.edit_text("❌ Failed to download the video file.")
             
-        await m.edit_text("🎞️ Generating screenshots via FFmpeg...")
+        await m.edit_text("🎞️ Generating screenshots via uploaded file...")
         
         # Timestamps in seconds (e.g., 10s, 30s, 60s)
-        timestamps = [10, 30, 60]
+        timestamps = [60, 180, 300, 500]
         screenshot_paths = []
         
         for ts in timestamps:
