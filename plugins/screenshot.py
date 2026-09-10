@@ -1,59 +1,71 @@
 import os
-import pyrogram
+import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from helper.ffmpeg import take_screen_shot
 
 @Client.on_message(filters.private & filters.command("screenshot"))
 async def generate_screenshots(client: Client, message: Message):
-    if not message.reply_to_message or not message.reply_to_message.video and not message.reply_to_message.document:
+    if not message.reply_to_message:
         return await message.reply_text("Please reply to a video file to generate screenshots.")
     
-    m = await message.reply_text("Downloading video to generate screenshots...")
+    reply = message.reply_to_message
+    media = reply.video or reply.document
     
-    # Create a temporary directory
+    if not media:
+        return await message.reply_text("The replied message is not a valid video or document file.")
+    
+    m = await message.reply_text("📥 Downloading video to generate screenshots...")
+    
     os.makedirs("downloads", exist_ok=True)
+    video_path = None
     
     try:
-        # Download the media file
+        # Download media safely
         video_path = await client.download_media(
-            message.reply_to_message,
+            message=reply,
             file_name="downloads/"
         )
         
-        await m.edit_text("Generating screenshots...")
+        if not video_path or not os.path.exists(video_path):
+            return await m.edit_text("❌ Failed to download the video file.")
+            
+        await m.edit_text("🎞️ Generating screenshots via FFmpeg...")
         
-        # Define timestamps to capture screenshots (e.g., at 10s, 30s, 60s)
-        # You can also parse video duration dynamically if needed
-        timestamps = [10, 30, 60] 
+        # Take screenshots at 10s, 30s, and 60s (adjust if video is shorter)
+        timestamps = [10, 30, 60]
         screenshot_paths = []
         
         for ts in timestamps:
             path = await take_screen_shot(video_path, "downloads", ts)
-            if path:
+            if path and os.path.exists(path):
                 screenshot_paths.append(path)
                 
         if not screenshot_paths:
-            return await m.edit_text("Failed to generate screenshots.")
+            return await m.edit_text("❌ Failed to extract screenshots from this video format.")
             
-        await m.edit_text("Uploading screenshots...")
+        await m.edit_text("📤 Uploading screenshots...")
         
-        # Send the generated screenshots back to the user
-        for img in screenshot_paths:
+        for idx, img in enumerate(screenshot_paths, start=1):
             await client.send_photo(
                 chat_id=message.chat.id,
                 photo=img,
-                caption=f"Screenshot at timestamp"
+                caption=f"📸 Screenshot #{idx}"
             )
-            os.remove(img) # Clean up image file
-            
-        # Clean up video file
-        if os.path.exists(video_path):
-            os.remove(video_path)
-            
+            try:
+                os.remove(img)
+            except:
+                pass
+                
         await m.delete()
         
     except Exception as e:
-        await m.edit_text(f"An error occurred: {str(e)}")
-        if 'video_path' in locals() and os.path.exists(video_path):
-            os.remove(video_path)
+        await m.edit_text(f"❌ Error during screenshot generation:\n`{str(e)}`")
+    
+    finally:
+        # Cleanup video to save server disk space
+        if video_path and os.path.exists(video_path):
+            try:
+                os.remove(video_path)
+            except:
+                pass
