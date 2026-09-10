@@ -89,7 +89,7 @@ async def generate_screenshots(client: Client, message: Message):
             await client.send_photo(
                 chat_id=message.chat.id,
                 photo=img,
-                caption=f"📸 Screenshot #{idx}"
+                caption=f"📸 Screenshot #{idx}\n\n⚡ **Powered by @Hari_Moviez**"
             )
             try:
                 os.remove(img)
