@@ -19,10 +19,10 @@ def humanbytes(size):
 # Dictionary to track active sessions for stream/sample generation
 active_stream_sessions = {}
 
-@Client.on_message(filters.private & filters.command("stream", case_sensitive=False))
+@Client.on_message(filters.private & filters.command("vs", case_sensitive=False))
 async def stream_command_handler(client: Client, message: Message):
     if not message.reply_to_message:
-        return await message.reply_text("Please reply to a video file to generate a sample stream clip.")
+        return await message.reply_text("ᴘʟᴇᴀꜱᴇ ʀᴇᴘʟʏ ᴛᴏ ᴠɪᴅᴇᴏ ғɪʟᴇ ᴛᴏ ɢᴇɴᴇʀᴀᴛᴇ ꜱᴀᴍᴘʟᴇ ᴄʟɪᴘ.")
     
     reply = message.reply_to_message
     media = reply.video or reply.document
