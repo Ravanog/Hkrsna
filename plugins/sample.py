@@ -2,7 +2,7 @@ import os
 import time
 import asyncio
 from pyrogram import Client, filters
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
 from helper.ffmpeg import generate_video_sample
 
 def humanbytes(size):
@@ -16,13 +16,13 @@ def humanbytes(size):
         n += 1
     return f"{round(size, 2)} {power_labels[n]}B"
 
-# Dictionary to track active tasks for cancellation
-active_tasks = {}
+# Dictionary to track active sessions for stream/sample generation
+active_stream_sessions = {}
 
-@Client.on_message(filters.private & filters.command(["sample", "videosample"], case_sensitive=False))
-async def generate_sample_handler(client: Client, message: Message):
+@Client.on_message(filters.private & filters.command("stream", case_sensitive=False))
+async def stream_command_handler(client: Client, message: Message):
     if not message.reply_to_message:
-        return await message.reply_text("Please reply to a video file to generate a sample clip.")
+        return await message.reply_text("Please reply to a video file to generate a sample stream clip.")
     
     reply = message.reply_to_message
     media = reply.video or reply.document
@@ -30,11 +30,11 @@ async def generate_sample_handler(client: Client, message: Message):
     if not media:
         return await message.reply_text("The replied message is not a valid video or document file.")
     
-    # Extract the file name (fall back to a default name if not available)
     file_name = getattr(media, "file_name", "Sample_Video.mp4")
+    video_duration = getattr(media, "duration", 0) or 0
     
-    markup = InlineKeyboardMarkup([[InlineKeyboardButton("❌ Cancel", callback_data=f"cancel_sample_{message.chat.id}")]])
-    m = await message.reply_text("📥 Initializing download for sample generation...", reply_markup=markup)
+    markup = InlineKeyboardMarkup([[InlineKeyboardButton("❌ Cancel", callback_data=f"stream_cancel_{message.chat.id}")]])
+    m = await message.reply_text("📥 Initializing download for stream sample...", reply_markup=markup)
     start_time = time.time()
     
     async def progress(current, total):
@@ -49,7 +49,7 @@ async def generate_sample_handler(client: Client, message: Message):
             bar = "█" * completed + "░" * (10 - completed)
             
             text = (
-                f"📥 **Downloading for Sample...**\n\n"
+                f"📥 **Downloading Video...**\n\n"
                 f"[{bar}] {percentage:.1f}%\n\n"
                 f"📁 **Size:** {humanbytes(current)} / {humanbytes(total)}\n"
                 f"⚡ **Speed:** {humanbytes(speed)}/s\n"
@@ -64,7 +64,7 @@ async def generate_sample_handler(client: Client, message: Message):
     video_path = None
     
     task = asyncio.current_task()
-    active_tasks[message.chat.id] = task
+    active_stream_sessions[message.chat.id] = {"task": task, "video_path": None}
 
     try:
         video_path = await client.download_media(
@@ -74,39 +74,33 @@ async def generate_sample_handler(client: Client, message: Message):
         )
         
         if not video_path or not os.path.exists(video_path):
-            active_tasks.pop(message.chat.id, None)
+            active_stream_sessions.pop(message.chat.id, None)
             return await m.edit_text("❌ Failed to download the video file.")
-            
-        await m.edit_text("✂️ Generating 30-second sample clip via FFmpeg...")
         
-        sample_path = await generate_video_sample(video_path, "downloads", start_time=60, duration=30)
+        # Save session data
+        active_stream_sessions[message.chat.id]["video_path"] = video_path
+        active_stream_sessions[message.chat.id]["file_name"] = file_name
+        active_stream_sessions[message.chat.id]["duration"] = video_duration
+
+        # Present 30s, 60s, and 120s selection buttons
+        select_markup = InlineKeyboardMarkup([
+            [
+                InlineKeyboardButton("⏱️ 30s", callback_data=f"stream_gen_30_{message.chat.id}"),
+                InlineKeyboardButton("⏱️ 60s", callback_data=f"stream_gen_60_{message.chat.id}")
+            ],[
+                InlineKeyboardButton("⏱️ 120s", callback_data=f"stream_gen_120_{message.chat.id}")
+            ],
+            [
+                InlineKeyboardButton("❌ Cancel", callback_data=f"stream_cancel_{message.chat.id}")
+            ]
+        ])
         
-        if not sample_path or not os.path.exists(sample_path):
-            active_tasks.pop(message.chat.id, None)
-            return await m.edit_text("❌ Failed to create sample video clip.")
-            
-        await m.edit_text("📤 Uploading sample video...")
-        
-        # Caption includes the filename and your branding
-        caption_text = (
-            f"🎬 **Sample / Teaser Clip**\n"
-            f"📂 **File Name:** `{file_name}`\n\n"
-            f"⚡ **Powered by @Hari_Moviez**"
+        await m.edit_text(
+            f"✅ **Download Complete!**\n\n"
+            f"📁 **File Name:** `{file_name}`\n\n"
+            f"👇 **Select your sample duration below:**",
+            reply_markup=select_markup
         )
-        
-        await client.send_video(
-            chat_id=message.chat.id,
-            video=sample_path,
-            caption=caption_text,
-            supports_streaming=True
-        )
-        
-        try:
-            os.remove(sample_path)
-        except:
-            pass
-            
-        await m.delete()
         
     except asyncio.CancelledError:
         await m.edit_text("❌ **Process Cancelled by User.**")
@@ -115,24 +109,91 @@ async def generate_sample_handler(client: Client, message: Message):
                 os.remove(video_path)
             except:
                 pass
-        return
+        active_stream_sessions.pop(message.chat.id, None)
     except Exception as e:
-        await m.edit_text(f"❌ Error during sample generation:\n`{str(e)}`")
+        await m.edit_text(f"❌ Error during download:\n`{str(e)}`")
+        active_stream_sessions.pop(message.chat.id, None)
+
+@Client.on_callback_query(filters.regex(r"^stream_gen_"))
+async def stream_generate_callback(client: Client, callback_query: CallbackQuery):
+    data = callback_query.data.split("_")
+    duration_choice = int(data[2])  # 30, 60, or 120
+    chat_id = int(data[3])
     
-    finally:
-        active_tasks.pop(message.chat.id, None)
+    if callback_query.message.chat.id != chat_id:
+        return await callback_query.answer("This button is not for you!", show_alert=True)
+        
+    session = active_stream_sessions.get(chat_id)
+    if not session or not session.get("video_path"):
+        return await callback_query.answer("Session expired. Please send the /stream command again.", show_alert=True)
+        
+    video_path = session["video_path"]
+    file_name = session["file_name"]
+    total_duration = session.get("duration", 0)
+    
+    # Calculate middle timestamp of the video player section
+    if total_duration > 0:
+        start_time = total_duration // 2
+    else:
+        start_time = 120  # Fallback if duration metadata is missing
+        
+    await callback_query.message.edit_text(f"✂️ Generating {duration_choice}-second sample from the middle of the video...")
+    
+    sample_path = await generate_video_sample(video_path, "downloads", start_time=start_time, duration=duration_choice)
+    
+    if not sample_path or not os.path.exists(sample_path):
+        active_stream_sessions.pop(chat_id, None)
+        return await callback_query.message.edit_text("❌ Failed to create sample video clip.")
+        
+    await callback_query.message.edit_text("📤 Uploading sample video...")
+    
+    caption_text = (
+        f"🎬 **Sample / Teaser Clip ({duration_choice}s)**\n"
+        f"📂 `{file_name}`\n\n"
+        f"⚡ **Powered by @Hari_Moviez**"
+    )
+    
+    await client.send_video(
+        chat_id=chat_id,
+        video=sample_path,
+        caption=caption_text,
+        supports_streaming=True
+    )
+    
+    # Cleanup files
+    try:
+        os.remove(sample_path)
+        if os.path.exists(video_path):
+            os.remove(video_path)
+    except:
+        pass
+        
+    active_stream_sessions.pop(chat_id, None)
+    try:
+        await callback_query.message.delete()
+    except:
+        pass
+
+@Client.on_callback_query(filters.regex(r"^stream_cancel_"))
+async def stream_cancel_callback(client: Client, callback_query: CallbackQuery):
+    chat_id = int(callback_query.data.split("_")[-1])
+    session = active_stream_sessions.get(chat_id)
+    
+    if session:
+        task = session.get("task")
+        if task and not task.done():
+            task.cancel()
+        video_path = session.get("video_path")
         if video_path and os.path.exists(video_path):
             try:
                 os.remove(video_path)
             except:
                 pass
-
-@Client.on_callback_query(filters.regex(r"^cancel_sample_"))
-async def cancel_sample_callback(client, callback_query):
-    chat_id = int(callback_query.data.split("_")[-1])
-    task = active_tasks.get(chat_id)
-    if task and not task.done():
-        task.cancel()
-        await callback_query.answer("Process cancelled successfully!", show_alert=True)
+        active_stream_sessions.pop(chat_id, None)
+        await callback_query.answer("Cancelled successfully!", show_alert=True)
+        try:
+            await callback_query.message.edit_text("❌ **Process Cancelled by User.**")
+        except:
+            pass
     else:
-        await callback_query.answer("No active process to cancel or it already finished.", show_alert=True)
+        await callback_query.answer("No active process to cancel.", show_alert=True)
