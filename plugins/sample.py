@@ -91,7 +91,7 @@ async def stream_command_handler(client: Client, message: Message):
                 InlineKeyboardButton("⏱️ 120s", callback_data=f"stream_gen_120_{message.chat.id}")
             ],
             [
-                InlineKeyboardButton("❌ Cancel", callback_data=f"stream_cancel_{message.chat.id}")
+                InlineKeyboardButton("❌ ᴄᴀɴᴄᴇʟ", callback_data=f"stream_cancel_{message.chat.id}")
             ]
         ])
         
