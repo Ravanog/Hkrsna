@@ -23,16 +23,16 @@ active_screenshot_tasks = {}
 @Client.on_message(filters.private & filters.command(["ss"], case_sensitive=False))
 async def generate_screenshots(client: Client, message: Message):
     if not message.reply_to_message:
-        return await message.reply_text("Please reply to a video file to generate screenshots.")
+        return await message.reply_text("ᴘʟᴇᴀꜱᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴠɪᴅᴇᴏ ғɪʟᴇ ᴛᴏ ɢᴇɴᴇʀᴀᴛᴇ ꜱᴄʀᴇᴇɴꜱʜᴏᴛꜱ.")
     
     reply = message.reply_to_message
     media = reply.video or reply.document
     
     if not media:
-        return await message.reply_text("The replied message is not a valid video or document file.")
+        return await message.reply_text("ᴛʜᴇ ʀᴇᴘʟɪᴇᴅ ᴍᴇꜱꜱᴀɢᴇ ɪꜱ ɴᴏᴛ ᴀ ᴠᴀʟɪᴅ ᴠɪᴅᴇᴏ ᴏʀ ᴅᴏᴄᴜᴍᴇɴᴛ ғɪʟᴇ.")
     
-    markup = InlineKeyboardMarkup([[InlineKeyboardButton("❌ Cancel", callback_data=f"cancel_screen_{message.chat.id}")]])
-    m = await message.reply_text("📥 Initializing download...", reply_markup=markup)
+    markup = InlineKeyboardMarkup([[InlineKeyboardButton("❌ ᴄᴀɴᴄᴇʟ", callback_data=f"cancel_screen_{message.chat.id}")]])
+    m = await message.reply_text("📥 ɪɴɪᴛɪᴀʟɪᴢɪɴɢ ᴅᴏᴡɴʟᴏᴀᴅ...", reply_markup=markup)
     start_time = time.time()
     
     # Progress callback function
@@ -49,7 +49,7 @@ async def generate_screenshots(client: Client, message: Message):
             bar = "█" * completed + "░" * (10 - completed)
             
             text = (
-                f"📥 **Downloading Video for Screenshots...**\n\n"
+                f"📥 **ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴠɪᴅᴇᴏ ғᴏʀ ꜱᴄʀᴇᴇɴꜱʜᴏᴛ...**\n\n"
                 f"[{bar}] {percentage:.1f}%\n\n"
                 f"📁 **Size:** {humanbytes(current)} / {humanbytes(total)}\n"
                 f"⚡ **Speed:** {humanbytes(speed)}/s\n"
@@ -79,7 +79,7 @@ async def generate_screenshots(client: Client, message: Message):
             active_screenshot_tasks.pop(message.chat.id, None)
             return await m.edit_text("❌ Failed to download the video file.")
             
-        await m.edit_text("🎞️ Generating screenshots via FFmpeg...")
+        await m.edit_text("🎞️ ɢᴇɴᴇʀᴀᴛɪɴɢ ꜱᴄʀᴇᴇɴꜱʜᴏᴛꜱ ᴠɪᴀ ᴜᴘʟᴏᴀᴅᴇᴅ ᴠɪᴅᴇᴏ ғɪʟᴇ...")
         
         # Timestamps in seconds (60s, 180s, 300s, 500s)
         timestamps = [60, 180, 300, 500]
@@ -94,7 +94,7 @@ async def generate_screenshots(client: Client, message: Message):
             active_screenshot_tasks.pop(message.chat.id, None)
             return await m.edit_text("❌ Failed to extract screenshots from this video format.")
             
-        await m.edit_text("📤 Uploading screenshots...")
+        await m.edit_text("📤 ᴜᴘʟᴏᴀᴅɪɴɢ ꜱᴄʀᴇᴇɴꜱʜᴏᴛꜱ...")
         
         for idx, img in enumerate(screenshot_paths, start=1):
             await client.send_photo(
