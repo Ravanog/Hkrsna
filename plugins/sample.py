@@ -30,6 +30,9 @@ async def generate_sample_handler(client: Client, message: Message):
     if not media:
         return await message.reply_text("The replied message is not a valid video or document file.")
     
+    # Extract the file name (fall back to a default name if not available)
+    file_name = getattr(media, "file_name", "Sample_Video.mp4")
+    
     markup = InlineKeyboardMarkup([[InlineKeyboardButton("❌ Cancel", callback_data=f"cancel_sample_{message.chat.id}")]])
     m = await message.reply_text("📥 Initializing download for sample generation...", reply_markup=markup)
     start_time = time.time()
@@ -60,7 +63,6 @@ async def generate_sample_handler(client: Client, message: Message):
     os.makedirs("downloads", exist_ok=True)
     video_path = None
     
-    # Track current task for cancellation
     task = asyncio.current_task()
     active_tasks[message.chat.id] = task
 
@@ -85,10 +87,17 @@ async def generate_sample_handler(client: Client, message: Message):
             
         await m.edit_text("📤 Uploading sample video...")
         
+        # Caption includes the filename and your branding
+        caption_text = (
+            f"🎬 **Sample / Teaser Clip**\n"
+            f"📂 **File Name:** `{file_name}`\n\n"
+            f"⚡ **Powered by @Hari_Moviez**"
+        )
+        
         await client.send_video(
             chat_id=message.chat.id,
             video=sample_path,
-            caption="🎬 **Sample / Teaser Clip**\n⚡ **Powered by @Hari_Moviez**",
+            caption=caption_text,
             supports_streaming=True
         )
         
