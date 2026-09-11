@@ -20,7 +20,7 @@ def humanbytes(size):
 # Dictionary to track active screenshot tasks for cancellation
 active_screenshot_tasks = {}
 
-@Client.on_message(filters.private & filters.command(["screenshot", "screenshots"], case_sensitive=False))
+@Client.on_message(filters.private & filters.command(["ss"], case_sensitive=False))
 async def generate_screenshots(client: Client, message: Message):
     if not message.reply_to_message:
         return await message.reply_text("Please reply to a video file to generate screenshots.")
