@@ -26,7 +26,9 @@ async def start(client, message):
 		InlineKeyboardButton('← ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ ☞', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use%20this%20bot%20to%20rename%20your%202GB%20files')
 	],[
         InlineKeyboardButton('ᴀʙᴏᴜᴛ ᴥ', callback_data='about'),
-        InlineKeyboardButton('ғᴇᴀᴛᴜʀᴇꜱ ✿', callback_data='help')       
+        InlineKeyboardButton('ғᴇᴀᴛᴜʀᴇꜱ ✿', callback_data='help')
+	],[
+		InlineKeyboardButton('۝ ɪᴏɪɴ ʙᴀᴄᴋᴜᴘ ᴄʜᴀɴɴᴇʟ ۝', url='https://t.me/hari_moviez')
          ]]
     if client.premium:
         start_button.append([InlineKeyboardButton('💸 ᴜᴘɢʀᴀᴅᴇ ᴛᴏ ᴘʀᴇᴍɪᴜᴍ 💸', callback_data='upgrade')])
@@ -204,7 +206,9 @@ async def cb_handler(client, query: CallbackQuery):
         InlineKeyboardButton('← ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ ☞', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use%20this%20bot%20to%20rename%20your%202GB%20files')
 	],[
         InlineKeyboardButton('ᴀʙᴏᴜᴛ ᴥ', callback_data='about'),
-        InlineKeyboardButton('ғᴇᴀᴛᴜʀᴇꜱ ✿', callback_data='help')       
+        InlineKeyboardButton('ғᴇᴀᴛᴜʀᴇꜱ ✿', callback_data='help')
+	],[
+		InlineKeyboardButton('۝ ɪᴏɪɴ ʙᴀᴄᴋᴜᴘ ᴄʜᴀɴɴᴇʟ ۝', url='https://t.me/hari_moviez')
          ]]
         if client.premium:
             start_button.append([InlineKeyboardButton('💸 ᴜᴘɢʀᴀᴅᴇ ᴛᴏ ᴘʀᴇᴍɪᴜᴍ 💸', callback_data='upgrade')])
