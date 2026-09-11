@@ -6,24 +6,18 @@ from helper.utils import metadata_text
 
 async def generate_video_sample(video_file, output_directory, start_time=60, duration=30):
     """
-    Generates a short video sample/teaser using ffmpeg.
-    :param video_file: Path to the original video file
-    :param output_directory: Directory to save the sample
-    :param start_time: Where to start the sample clip in seconds
-    :param duration: Duration of the sample clip in seconds
+    Generates a fast, high-quality video sample preserving original landscape resolution and codecs.
     """
     os.makedirs(output_directory, exist_ok=True)
     out_sample_path = os.path.join(output_directory, f"sample_{os.path.basename(video_file)}")
     
-    # FFmpeg command to cut a sample clip quickly and re-encode/copy streams safely
+    # Using '-c copy' preserves exact width, height, landscape orientation, and quality instantly
     command = [
         "ffmpeg",
-        "-ss", str(start_time),
         "-i", video_file,
+        "-ss", str(start_time),
         "-t", str(duration),
-        "-c:v", "libx264",
-        "-preset", "ultrafast",
-        "-c:a", "aac",
+        "-c", "copy",
         out_sample_path,
         "-y"
     ]
@@ -42,6 +36,7 @@ async def generate_video_sample(video_file, output_directory, start_time=60, dur
         print(f"FFmpeg Sample Error: {e}")
         
     return None
+
     
 
 async def take_screen_shot(video_file, output_directory, ttl):
