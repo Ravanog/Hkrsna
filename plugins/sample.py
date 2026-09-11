@@ -34,7 +34,7 @@ async def stream_command_handler(client: Client, message: Message):
     video_duration = getattr(media, "duration", 0) or 0
     
     markup = InlineKeyboardMarkup([[InlineKeyboardButton("❌ Cancel", callback_data=f"stream_cancel_{message.chat.id}")]])
-    m = await message.reply_text("📥 Initializing download for stream sample...", reply_markup=markup)
+    m = await message.reply_text("📥 ɪɴɪᴛɪᴀʟɪᴢɪɴɢ ᴅᴏᴡɴʟᴏᴀᴅ ғᴏʀ ꜱᴀᴍᴘʟᴇ ᴠɪᴅᴇᴏ...", reply_markup=markup)
     start_time = time.time()
     
     async def progress(current, total):
@@ -49,7 +49,7 @@ async def stream_command_handler(client: Client, message: Message):
             bar = "█" * completed + "░" * (10 - completed)
             
             text = (
-                f"📥 **Downloading Video...**\n\n"
+                f"📥 **ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ...**\n\n"
                 f"[{bar}] {percentage:.1f}%\n\n"
                 f"📁 **Size:** {humanbytes(current)} / {humanbytes(total)}\n"
                 f"⚡ **Speed:** {humanbytes(speed)}/s\n"
@@ -148,7 +148,7 @@ async def stream_generate_callback(client: Client, callback_query: CallbackQuery
     await callback_query.message.edit_text("📤 Uploading sample video...")
     
     caption_text = (
-        f"🎬 **Sample / Teaser Clip ({duration_choice}s)**\n"
+        f"🎬 **Sample Clip ({duration_choice}s)**\n"
         f"📂 `{file_name}`\n\n"
         f"⚡ **Powered by @Hari_Moviez**"
     )
