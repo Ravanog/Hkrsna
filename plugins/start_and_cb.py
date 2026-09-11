@@ -23,10 +23,10 @@ upgrade_trial_button = InlineKeyboardMarkup([[
 @Client.on_message(filters.private & filters.command("start"))
 async def start(client, message):
     start_button = [[
-		InlineKeyboardButton('ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use%20this%20bot%20to%20rename%20your%202GB%20files')
+		InlineKeyboardButton('← ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ ☞', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use%20this%20bot%20to%20rename%20your%202GB%20files')
 	],[
-        InlineKeyboardButton('ᴀʙᴏᴜᴛ', callback_data='about'),
-        InlineKeyboardButton('ʜᴇʟᴘ', callback_data='help')       
+        InlineKeyboardButton('ᴀʙᴏᴜᴛ ᴥ', callback_data='about'),
+        InlineKeyboardButton('ғᴇᴀᴛᴜʀᴇꜱ ✿', callback_data='help')       
          ]]
     if client.premium:
         start_button.append([InlineKeyboardButton('💸 ᴜᴘɢʀᴀᴅᴇ ᴛᴏ ᴘʀᴇᴍɪᴜᴍ 💸', callback_data='upgrade')])
@@ -201,10 +201,10 @@ async def cb_handler(client, query: CallbackQuery):
     data = query.data 
     if data == "start":
         start_button = [[
-        InlineKeyboardButton('ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use%20this%20bot%20to%20rename%20your%202GB%20files')
+        InlineKeyboardButton('← ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ ☞', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use%20this%20bot%20to%20rename%20your%202GB%20files')
 	],[
-        InlineKeyboardButton('ᴀʙᴏᴜᴛ', callback_data='about'),
-        InlineKeyboardButton('ʜᴇʟᴘ', callback_data='help')       
+        InlineKeyboardButton('ᴀʙᴏᴜᴛ ᴥ', callback_data='about'),
+        InlineKeyboardButton('ғᴇᴀᴛᴜʀᴇꜱ ✿', callback_data='help')       
          ]]
         if client.premium:
             start_button.append([InlineKeyboardButton('💸 ᴜᴘɢʀᴀᴅᴇ ᴛᴏ ᴘʀᴇᴍɪᴜᴍ 💸', callback_data='upgrade')])
@@ -220,6 +220,7 @@ async def cb_handler(client, query: CallbackQuery):
             reply_markup=InlineKeyboardMarkup([[
                 #⚠️ don't change source code & source link ⚠️ #
 				InlineKeyboardButton("ꜰɪʟᴇ ɴᴀᴍᴇ", callback_data = "custom_file_name"),
+				InlineKeyboardButton("ᴇxᴛʀᴀ", callback_data = "harikushal"),
                 ],[
                 InlineKeyboardButton("ᴛʜᴜᴍʙɴᴀɪʟ", callback_data = "thumbnail"),
                 InlineKeyboardButton("ᴄᴀᴘᴛɪᴏɴ", callback_data = "caption")
@@ -229,10 +230,7 @@ async def cb_handler(client, query: CallbackQuery):
         
     elif data == "about":
         about_button = [[
-         #⚠️ don't change source code & source link ⚠️ #
-        InlineKeyboardButton("sᴏᴜʀᴄᴇ", callback_data = "source_code"), #Whoever is deploying this repo is given a warning ⚠️ not to remove this repo link #first & last warning ⚠️
-        InlineKeyboardButton("ʙᴏᴛ sᴛᴀᴛᴜs", callback_data = "bot_status")
-        ],[
+        InlineKeyboardButton("ʙᴏᴛ sᴛᴀᴛᴜs", callback_data = "bot_status"),
         InlineKeyboardButton("ʟɪᴠᴇ sᴛᴀᴛᴜs", url='https://thoughtful-tammy-chandru123-2fdc8ef3.koyeb.app')           
         ]]
         if client.premium:
@@ -277,6 +275,14 @@ async def cb_handler(client, query: CallbackQuery):
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup([[
              InlineKeyboardButton("ʙᴀᴄᴋ", callback_data = "help")]])) 
+
+    elif data == "harikushal":
+        await query.message.edit_text(
+            text=rkn.HARIKUSHAL,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup([[
+             InlineKeyboardButton("ʙᴀᴄᴋ", callback_data = "help")]])) 
+      
       
     elif data == "caption":
         await query.message.edit_text(
