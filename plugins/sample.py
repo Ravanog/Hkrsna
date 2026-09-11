@@ -28,7 +28,7 @@ async def stream_command_handler(client: Client, message: Message):
     media = reply.video or reply.document
     
     if not media:
-        return await message.reply_text("The replied message is not a valid video or document file.")
+        return await message.reply_text("ᴛʜᴇ ʀᴇᴘʟɪᴇᴅ ᴍᴇꜱꜱᴀɢᴇ ɪꜱ ɴᴏᴛ ᴀ ᴠᴀʟɪᴅ ᴠɪᴅᴇᴏ ᴏʀ ᴅᴏᴄᴜᴍᴇɴᴛ ғɪʟᴇ.")
     
     file_name = getattr(media, "file_name", "Sample_Video.mp4")
     video_duration = getattr(media, "duration", 0) or 0
