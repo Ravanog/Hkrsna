@@ -68,7 +68,7 @@ async def generate_sample_handler(client: Client, message: Message):
         await m.edit_text("✂️ Generating 30-second sample clip via FFmpeg...")
         
         # Generates a 30-second sample starting at 60 seconds in
-        sample_path = await generate_video_sample(video_path, "downloads", start_time=60, duration=30)
+        sample_path = await generate_video_sample(video_path, "downloads", start_time=300, duration=30)
         
         if not sample_path or not os.path.exists(sample_path):
             return await m.edit_text("❌ Failed to create sample video clip.")
