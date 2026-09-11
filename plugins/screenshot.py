@@ -1,7 +1,8 @@
 import os
 import time
+import asyncio
 from pyrogram import Client, filters
-from pyrogram.types import Message
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from helper.ffmpeg import take_screen_shot
 
 def humanbytes(size):
@@ -16,7 +17,10 @@ def humanbytes(size):
         n += 1
     return f"{round(size, 2)} {power_labels[n]}B"
 
-@Client.on_message(filters.private & filters.command("screenshot"))
+# Dictionary to track active screenshot tasks for cancellation
+active_screenshot_tasks = {}
+
+@Client.on_message(filters.private & filters.command(["screenshot", "screenshots"], case_sensitive=False))
 async def generate_screenshots(client: Client, message: Message):
     if not message.reply_to_message:
         return await message.reply_text("Please reply to a video file to generate screenshots.")
@@ -27,7 +31,8 @@ async def generate_screenshots(client: Client, message: Message):
     if not media:
         return await message.reply_text("The replied message is not a valid video or document file.")
     
-    m = await message.reply_text("📥 Initializing download...")
+    markup = InlineKeyboardMarkup([[InlineKeyboardButton("❌ Cancel", callback_data=f"cancel_screen_{message.chat.id}")]])
+    m = await message.reply_text("📥 Initializing download...", reply_markup=markup)
     start_time = time.time()
     
     # Progress callback function
@@ -44,20 +49,24 @@ async def generate_screenshots(client: Client, message: Message):
             bar = "█" * completed + "░" * (10 - completed)
             
             text = (
-                f"📥 **Downloading Video...**\n\n"
+                f"📥 **Downloading Video for Screenshots...**\n\n"
                 f"[{bar}] {percentage:.1f}%\n\n"
                 f"📁 **Size:** {humanbytes(current)} / {humanbytes(total)}\n"
                 f"⚡ **Speed:** {humanbytes(speed)}/s\n"
                 f"⏱️ **ETA:** {int(eta)}s"
             )
             try:
-                await m.edit_text(text)
+                await m.edit_text(text, reply_markup=markup)
             except Exception:
                 pass
 
     os.makedirs("downloads", exist_ok=True)
     video_path = None
     
+    # Track current task for cancellation
+    task = asyncio.current_task()
+    active_screenshot_tasks[message.chat.id] = task
+
     try:
         # Pass the progress callback into download_media
         video_path = await client.download_media(
@@ -67,11 +76,12 @@ async def generate_screenshots(client: Client, message: Message):
         )
         
         if not video_path or not os.path.exists(video_path):
+            active_screenshot_tasks.pop(message.chat.id, None)
             return await m.edit_text("❌ Failed to download the video file.")
             
-        await m.edit_text("🎞️ Generating screenshots via uploaded file...")
+        await m.edit_text("🎞️ Generating screenshots via FFmpeg...")
         
-        # Timestamps in seconds (e.g., 10s, 30s, 60s)
+        # Timestamps in seconds (60s, 180s, 300s, 500s)
         timestamps = [60, 180, 300, 500]
         screenshot_paths = []
         
@@ -81,6 +91,7 @@ async def generate_screenshots(client: Client, message: Message):
                 screenshot_paths.append(path)
                 
         if not screenshot_paths:
+            active_screenshot_tasks.pop(message.chat.id, None)
             return await m.edit_text("❌ Failed to extract screenshots from this video format.")
             
         await m.edit_text("📤 Uploading screenshots...")
@@ -98,13 +109,32 @@ async def generate_screenshots(client: Client, message: Message):
                 
         await m.delete()
         
+    except asyncio.CancelledError:
+        await m.edit_text("❌ **Screenshot Generation Cancelled by User.**")
+        if video_path and os.path.exists(video_path):
+            try:
+                os.remove(video_path)
+            except:
+                pass
+        return
     except Exception as e:
         await m.edit_text(f"❌ Error during screenshot generation:\n`{str(e)}`")
     
     finally:
+        active_screenshot_tasks.pop(message.chat.id, None)
         # Cleanup downloaded video file from server storage
         if video_path and os.path.exists(video_path):
             try:
                 os.remove(video_path)
             except:
                 pass
+
+@Client.on_callback_query(filters.regex(r"^cancel_screen_"))
+async def cancel_screenshot_callback(client, callback_query):
+    chat_id = int(callback_query.data.split("_")[-1])
+    task = active_screenshot_tasks.get(chat_id)
+    if task and not task.done():
+        task.cancel()
+        await callback_query.answer("Screenshot process cancelled successfully!", show_alert=True)
+    else:
+        await callback_query.answer("No active process to cancel or it already finished.", show_alert=True)
