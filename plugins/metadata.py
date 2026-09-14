@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import ListenerTimeout
-from helper.database import digital_botz
+from helper.database import digital_botz, db
 from config import rkn
 
 TRUE = [[InlineKeyboardButton('Metadata On', callback_data='metadata_1'),
@@ -13,6 +13,33 @@ FALSE = [[InlineKeyboardButton('Metadata Off', callback_data='metadata_0'),
        ],[
        InlineKeyboardButton('Set Custom Metadata', callback_data='custom_metadata')]]
 
+
+
+@Client.on_message(filters.private & filters.command("setaudio"))
+async def set_audio_handler(client: Client, message: Message):
+    if len(message.command) < 2:
+        return await message.reply_text(
+            "❌ **Please provide an audio title!**\n\n"
+            "Usage: `/setaudio @Hari_Moviez Audio`"
+        )
+    
+    audio_title = " ".join(message.command[1:])
+    await db.set_audio_metadata(message.from_user.id, audio_title)
+    await message.reply_text(f"✅ **Custom Audio Track Title Saved Successfully!**\n\n`{audio_title}`")
+
+@Client.on_message(filters.private & filters.command("seeaudio"))
+async def see_audio_handler(client: Client, message: Message):
+    audio_title = await db.get_audio_metadata(message.from_user.id)
+    if audio_title:
+        await message.reply_text(f"🎧 **Your Current Custom Audio Title:**\n\n`{audio_title}`")
+    else:
+        await message.reply_text("❌ You haven't set a custom audio title yet. Use `/setaudio` to set one.")
+
+@Client.on_message(filters.private & filters.command("delaudio"))
+async def del_audio_handler(client: Client, message: Message):
+    await db.delete_audio_metadata(message.from_user.id)
+    await message.reply_text("🗑️ **Custom Audio Title Deleted Successfully!** Reverted to default settings.")
+       
 
 @Client.on_message(filters.private & filters.command('metadata'))
 async def handle_metadata(bot: Client, message: Message):
