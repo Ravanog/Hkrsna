@@ -4,7 +4,7 @@ import os, time, asyncio, subprocess, json
 from helper.utils import metadata_text
 
 
-async def rename_audio_tracks(video_file, output_directory, new_audio_title="Powered by @Hari_Moviez"):
+async def rename_audio_tracks(video_file, output_directory, audio_title="Powered by @Hari_Moviez"):
     """
     Updates internal audio track metadata using the user's custom title.
     """
@@ -16,7 +16,7 @@ async def rename_audio_tracks(video_file, output_directory, new_audio_title="Pow
         "-i", video_file,
         "-c:v", "copy",
         "-c:a", "copy",
-        "-metadata:s:a:0", f"title={new_audio_title}",
+        "-metadata:s:a:0", f"title={audio_title}",
         output_file,
         "-y"
     ]
