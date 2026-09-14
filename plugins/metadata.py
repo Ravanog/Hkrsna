@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 from pyrogram.errors import ListenerTimeout
-from helper.database import digital_botz, db
+from helper.database import digital_botz
 from config import rkn
 
 TRUE = [[InlineKeyboardButton('Metadata On', callback_data='metadata_1'),
