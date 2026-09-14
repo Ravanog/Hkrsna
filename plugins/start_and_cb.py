@@ -8,22 +8,22 @@ from plugins import __version__ as _bot_version_, __developer__, __database__, _
 from plugins.file_rename import upload_doc
 
 upgrade_button = InlineKeyboardMarkup([[        
-        InlineKeyboardButton('ʙᴜʏ ᴘʀᴇᴍɪᴜᴍ ✓', user_id=int(Config.ADMIN), style=enums.ButtonStyle.PRIMARY),
+        InlineKeyboardButton('✨ ʙᴜʏ ᴘʀᴇᴍɪᴜᴍ ✓', user_id=int(Config.ADMIN)),
          ],[
         InlineKeyboardButton("ʙᴀᴄᴋ", callback_data = "start")
 ]])
 
 upgrade_trial_button = InlineKeyboardMarkup([[        
-        InlineKeyboardButton('ʙᴜʏ ᴘʀᴇᴍɪᴜᴍ ✓', user_id=int(Config.ADMIN), style=enums.ButtonStyle.PRIMARY),
+        InlineKeyboardButton('✨ ʙᴜʏ ᴘʀᴇᴍɪᴜᴍ ✓', user_id=int(Config.ADMIN)),
          ],[
-        InlineKeyboardButton("ᴛʀɪᴀʟ", callback_data = "give_trial", style=enums.ButtonStyle.SUCCESS),
+        InlineKeyboardButton("🟢 ᴛʀɪᴀʟ", callback_data = "give_trial"),
         InlineKeyboardButton("ʙᴀᴄᴋ", callback_data = "start")
 ]])
         
 @Client.on_message(filters.private & filters.command("start"))
 async def start(client, message):
     start_button = [[
-		InlineKeyboardButton('← ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ ☞', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use%20this%20bot%20to%20rename%20your%202GB%20files', style=enums.ButtonStyle.SUCCESS)
+		InlineKeyboardButton('← ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ ☞', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use%20this%20bot%20to%20rename%20your%202GB%20files')
 	],[
         InlineKeyboardButton('ᴀʙᴏᴜᴛ ᴥ', callback_data='about'),
         InlineKeyboardButton('ғᴇᴀᴛᴜʀᴇꜱ ✿', callback_data='help')
@@ -31,7 +31,7 @@ async def start(client, message):
 		InlineKeyboardButton('۝ ɪᴏɪɴ ʙᴀᴄᴋᴜᴘ ᴄʜᴀɴɴᴇʟ ۝', url='https://t.me/hari_moviez')
          ]]
     if client.premium:
-        start_button.append([InlineKeyboardButton('💸 ᴜᴘɢʀᴀᴅᴇ ᴛᴏ ᴘʀᴇᴍɪᴜᴍ 💸', callback_data='upgrade', style=enums.ButtonStyle.PRIMARY)])
+        start_button.append([InlineKeyboardButton('💸 ᴜᴘɢʀᴀᴅᴇ ᴛᴏ ᴘʀᴇᴍɪᴜᴍ 💸', callback_data='upgrade')])
     user = message.from_user
     await digital_botz.add_user(client, message) 
     if Config.PIC:
@@ -175,11 +175,11 @@ async def myplan(client, message):
             remain = int(limit) - int(used)
             type = user_data.get('usertype', "Free")
             text = f"ᴜꜱᴇʀ :- {user}\nᴜꜱᴇʀ ɪᴅ :- <code>{user_id}</code>\nᴘʟᴀɴ :- `{type}`\nᴅᴀɪʟʏ ᴜᴘʟᴏᴀᴅ ʟɪᴍɪᴛ :- `{humanbytes(limit)}`\nᴛᴏᴅᴀʏ ᴜsᴇᴅ :- `{humanbytes(used)}`\nʀᴇᴍᴀɪɴ :- `{humanbytes(remain)}`\nᴇxᴘɪʀᴇᴅ ᴅᴀᴛᴇ :- ʟɪғᴇᴛɪᴍᴇ\n\nɪꜰ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴛᴀᴋᴇ ᴘʀᴇᴍɪᴜᴍ ᴛʜᴇɴ ᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ 👇"
-            await message.reply_text(text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("💸 ᴄʜᴇᴄᴋᴏᴜᴛ ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴꜱ 💸", callback_data='upgrade', style=enums.ButtonStyle.PRIMARY)]]), quote=True)
+            await message.reply_text(text, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("💸 ᴄʜᴇᴄᴋᴏᴜᴛ ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴꜱ 💸", callback_data='upgrade')]]), quote=True)
         else:
             m=await message.reply_sticker("CAACAgIAAxkBAAIBTGVjQbHuhOiboQsDm35brLGyLQ28AAJ-GgACglXYSXgCrotQHjibHgQ")
             await message.reply_text(f"ʜᴇʏ {user},\n\nʏᴏᴜ ᴅᴏ ɴᴏᴛ ʜᴀᴠᴇ ᴀɴʏ ᴀᴄᴛɪᴠᴇ ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴs, ɪꜰ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴛᴀᴋᴇ ᴘʀᴇᴍɪᴜᴍ ᴛʜᴇɴ ᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ 👇",
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("💸 ᴄʜᴇᴄᴋᴏᴜᴛ ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴꜱ 💸", callback_data='upgrade', style=enums.ButtonStyle.PRIMARY)]]))			 
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("💸 ᴄʜᴇᴄᴋᴏᴜᴛ ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴꜱ 💸", callback_data='upgrade')]]))			 
             await asyncio.sleep(2)
             await m.delete()
 
@@ -203,7 +203,7 @@ async def cb_handler(client, query: CallbackQuery):
     data = query.data 
     if data == "start":
         start_button = [[
-        InlineKeyboardButton('← ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ ☞', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use%20this%20bot%20to%20rename%20your%202GB%20files', style=enums.ButtonStyle.SUCCESS)
+        InlineKeyboardButton('← ꜱʜᴀʀᴇ ᴛʜɪꜱ ʙᴏᴛ ᴡɪᴛʜ ғʀɪᴇɴᴅꜱ ☞', url='https://t.me/share/url?url=https://t.me/Hk_Renamex1_bot&text=use%20this%20bot%20to%20rename%20your%202GB%20files')
 	],[
         InlineKeyboardButton('ᴀʙᴏᴜᴛ ᴥ', callback_data='about'),
         InlineKeyboardButton('ғᴇᴀᴛᴜʀᴇꜱ ✿', callback_data='help')
@@ -211,7 +211,7 @@ async def cb_handler(client, query: CallbackQuery):
 		InlineKeyboardButton('۝ ɪᴏɪɴ ʙᴀᴄᴋᴜᴘ ᴄʜᴀɴɴᴇʟ ۝', url='https://t.me/hari_moviez')
          ]]
         if client.premium:
-            start_button.append([InlineKeyboardButton('💸 ᴜᴘɢʀᴀᴅᴇ ᴛᴏ ᴘʀᴇᴍɪᴜᴍ 💸', callback_data='upgrade', style=enums.ButtonStyle.PRIMARY)])
+            start_button.append([InlineKeyboardButton('💸 ᴜᴘɢʀᴀᴅᴇ ᴛᴏ ᴘʀᴇᴍɪᴜᴍ 💸', callback_data='upgrade')])
         await query.message.edit_text(
             text=rkn.START_TXT.format(query.from_user.mention),
             disable_web_page_preview=True,
@@ -238,7 +238,7 @@ async def cb_handler(client, query: CallbackQuery):
         InlineKeyboardButton("ʟɪᴠᴇ sᴛᴀᴛᴜs", url='https://thoughtful-tammy-chandru123-2fdc8ef3.koyeb.app')           
         ]]
         if client.premium:
-            about_button[-1].append(InlineKeyboardButton("ᴜᴘɢʀᴀᴅᴇ", callback_data = "upgrade", style=enums.ButtonStyle.PRIMARY))
+            about_button[-1].append(InlineKeyboardButton("ᴜᴘɢʀᴀᴅᴇ", callback_data = "upgrade"))
             about_button.append([InlineKeyboardButton("ʙᴀᴄᴋ", callback_data = "start")])
         else:
             about_button[-1].append(InlineKeyboardButton("ʙᴀᴄᴋ", callback_data = "start"))
