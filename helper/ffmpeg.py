@@ -4,6 +4,39 @@ import os, time, asyncio, subprocess, json
 from helper.utils import metadata_text
 
 
+async def rename_audio_tracks(video_file, output_directory, audio_title="Powered by @Hari_Moviez"):
+    """
+    Updates internal audio track metadata using the user's custom title.
+    """
+    os.makedirs(output_directory, exist_ok=True)
+    output_file = os.path.join(output_directory, f"audio_edited_{os.path.basename(video_file)}")
+    
+    command = [
+        "ffmpeg",
+        "-i", video_file,
+        "-c:v", "copy",
+        "-c:a", "copy",
+        "-metadata:s:a:0", f"title={audio_title}",
+        output_file,
+        "-y"
+    ]
+    
+    try:
+        process = await asyncio.create_subprocess_exec(
+            *command,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
+        await process.communicate()
+        
+        if os.path.exists(output_file) and os.path.getsize(output_file) > 0:
+            return output_file
+    except Exception as e:
+        print(f"FFmpeg Audio Custom Tag Error: {e}")
+        
+    return None
+
+
 async def generate_video_sample(video_file, output_directory, start_time=60, duration=30):
     """
     Generates a fast, high-quality video sample preserving original landscape resolution and codecs.
