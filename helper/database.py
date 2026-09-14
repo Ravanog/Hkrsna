@@ -256,4 +256,26 @@ class Database:
         banned_users = self.col.find({'ban_status.is_banned': True})
         return banned_users
         
+# Add these methods to your Database class in helper/database.py
+
+async def set_audio_metadata(self, user_id: int, audio_title: str):
+    await self.col.update_one(
+        {"_id": int(user_id)}, 
+        {"$set": {"audio_metadata": audio_title}}, 
+        upsert=True
+    )
+
+async def get_audio_metadata(self, user_id: int):
+    user = await self.col.find_one({"_id": int(user_id)})
+    if user and "audio_metadata" in user:
+        return user["audio_metadata"]
+    return None # Default fallback if nothing is set
+
+async def delete_audio_metadata(self, user_id: int):
+    await self.col.update_one(
+        {"_id": int(user_id)}, 
+        {"$unset": {"audio_metadata": ""}}
+    )
+    
+        
 digital_botz = Database(Config.DB_URL, Config.DB_NAME)
