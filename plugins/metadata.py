@@ -14,22 +14,21 @@ FALSE = [[InlineKeyboardButton('Metadata Off', callback_data='metadata_0'),
        InlineKeyboardButton('Set Custom Metadata', callback_data='custom_metadata')]]
 
 
-
 @Client.on_message(filters.private & filters.command("setaudio"))
 async def set_audio_handler(client: Client, message: Message):
-    if len(message.command) < 2:
+    if len(message.text.split(None, 1)) < 2:
         return await message.reply_text(
             "❌ **Please provide an audio title!**\n\n"
             "Usage: `/setaudio @Hari_Moviez Audio`"
         )
     
-    audio_title = " ".join(message.command[1:])
-    await db.set_audio_metadata(message.from_user.id, audio_title)
+    audio_title = message.text.split(None, 1)[1]
+    await digital_botz.set_audio_metadata(message.from_user.id, audio_title)
     await message.reply_text(f"✅ **Custom Audio Track Title Saved Successfully!**\n\n`{audio_title}`")
 
 @Client.on_message(filters.private & filters.command("seeaudio"))
 async def see_audio_handler(client: Client, message: Message):
-    audio_title = await db.get_audio_metadata(message.from_user.id)
+    audio_title = await digital_botz.get_audio_metadata(message.from_user.id)
     if audio_title:
         await message.reply_text(f"🎧 **Your Current Custom Audio Title:**\n\n`{audio_title}`")
     else:
@@ -37,7 +36,7 @@ async def see_audio_handler(client: Client, message: Message):
 
 @Client.on_message(filters.private & filters.command("delaudio"))
 async def del_audio_handler(client: Client, message: Message):
-    await db.delete_audio_metadata(message.from_user.id)
+    await digital_botz.delete_audio_metadata(message.from_user.id)
     await message.reply_text("🗑️ **Custom Audio Title Deleted Successfully!** Reverted to default settings.")
        
 
