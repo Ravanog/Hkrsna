@@ -8,7 +8,7 @@ from hachoir.parser import createParser
 from PIL import Image
 from helper.utils import progress_for_pyrogram, convert, humanbytes, add_prefix_suffix, remove_path
 from helper.database import digital_botz
-from helper.ffmpeg import change_metadata
+from helper.ffmpeg import change_metadata, rename_audio_tracks
 from config import Config
 from asyncio import sleep
 import os, time, asyncio
@@ -43,7 +43,7 @@ async def rename_start(client, message):
                  return await message.reply_text("Sᴏʀʀy Bʀᴏ Tʜɪꜱ Bᴏᴛ Iꜱ Dᴏᴇꜱɴ'ᴛ Sᴜᴩᴩᴏʀᴛ Uᴩʟᴏᴀᴅɪɴɢ Fɪʟᴇꜱ Bɪɢɢᴇʀ Tʜᴀɴ 2Gʙ+")
         try:
             await message.reply_text(
-                text=f"**__ᴍᴇᴅɪᴀ ɪɴꜰᴏ:\n\n◈ ᴏʟᴅ ꜰɪʟᴇ ɴᴀᴍᴇ: `{filename}`\n\n◈ ᴇxᴛᴇɴꜱɪᴏɴ: `{extension_type.upper()}`\n◈ ꜰɪʟᴇ ꜱɪᴢᴇ: `{filesize}`\n◈ ᴍɪᴍᴇ ᴛʏᴇᴩ: `{mime_type}`\n◈ ᴅᴄ ɪᴅ: `{dcid}`\n\nᴘʟᴇᴀsᴇ ᴇɴᴛᴇʀ ᴛʜᴇ ɴᴇᴡ ғɪʟᴇɴᴀᴍᴇ ᴡɪᴛʜ ᴇxᴛᴇɴsɪᴏɴ ᴀɴᴅ ʀᴇᴘʟʏ ᴛʜɪs ᴍᴇssᴀɢᴇ....__**",
+                text=f"**__ᴍᴇᴅɪᴀ ɪɴꜰᴏ:\n\n◈ ᴏʟᴅ ꜰɪʟᴇ ɴᴀᴍᴇ: `{filename}`\n\n◈ ᴇxᴛᴇɴꜱɪᴏɴ: `{extension_type.upper()}`\n◈ ꜰɪʟᴇ ꜱɪᴢᴇ: `{filesize}`\n◈ ᴍɪᴍᴇ ᴛʏᴇᴩ: `{mime_type}`\n◈ ᴅᴄ ɪᴅ: `{dcid}`\n\nᴘʟᴇᴀsᴇ ᴇɴᴛᴇʀ ᴛʜᴇ ɴᴇᴡ ғɪʟᴇɴᴀᴍᴇ wɪᴛʜ ᴇxᴛᴇɴsɪᴏɴ ᴀɴᴅ ʀᴇᴘʟʏ ᴛʜɪs ᴍᴇssᴀɢᴇ....__**",
                 reply_to_message_id=message.id,  
                 reply_markup=ForceReply(True)
             )       
@@ -51,7 +51,7 @@ async def rename_start(client, message):
         except FloodWait as e:
             await asyncio.sleep(e.value)
             await message.reply_text(
-                text=f"**__ᴍᴇᴅɪᴀ ɪɴꜰᴏ:\n\n◈ ᴏʟᴅ ꜰɪʟᴇ ɴᴀᴍᴇ: `{filename}`\n\n◈ ᴇxᴛᴇɴꜱɪᴏɴ: `{extension_type.upper()}`\n◈ ꜰɪʟᴇ ꜱɪᴢᴇ: `{filesize}`\n◈ ᴍɪᴍᴇ ᴛʏᴇᴩ: `{mime_type}`\n◈ ᴅᴄ ɪᴅ: `{dcid}`\n\nᴘʟᴇᴀsᴇ ᴇɴᴛᴇʀ ᴛʜᴇ ɴᴇᴡ ғɪʟᴇɴᴀᴍᴇ ᴡɪᴛʜ ᴇxᴛᴇɴsɪᴏɴ ᴀɴᴅ ʀᴇᴘʟʏ ᴛʜɪs ᴍᴇssᴀɢᴇ....__**",
+                text=f"**__ᴍᴇᴅɪᴀ ɪɴꜰᴏ:\n\n◈ ᴏʟᴅ ꜰɪʟᴇ ɴᴀᴍᴇ: `{filename}`\n\n◈ ᴇxᴛᴇɴꜱɪᴏɴ: `{extension_type.upper()}`\n◈ ꜰɪʟᴇ ꜱɪᴢᴇ: `{filesize}`\n◈ ᴍɪᴍᴇ ᴛʏᴇᴩ: `{mime_type}`\n◈ ᴅᴄ ɪᴅ: `{dcid}`\n\nᴘʟᴇᴀsᴇ ᴇɴᴛᴇʀ ᴛʜᴇ ɴᴇᴡ ғɪʟᴇɴᴀᴍᴇ wɪᴛʜ ᴇxᴛᴇɴsɪᴏɴ ᴀɴᴅ ʀᴇᴘʟʏ ᴛʜɪs ᴍᴇssᴀɢᴇ....__**",
                 reply_to_message_id=message.id,  
                 reply_markup=ForceReply(True)
             )
@@ -152,7 +152,7 @@ async def upload_files(bot, sender_id, upload_type, file_path, ph_path, caption,
         # Return error if upload fails
         return None, str(e)
 
-#@Client.on_callback_query(filters.regex("upload"))
+@Client.on_callback_query(filters.regex("upload"))
 async def upload_doc(bot, update):
     rkn_processing = await update.message.edit("`Processing...`")
     # Creating Directory for Metadata
@@ -189,22 +189,34 @@ async def upload_doc(bot, update):
             await digital_botz.set_used_limit(user_id, used_remove)
         return await rkn_processing.edit(f"Download Error: {e}")
 
+    # Handle Video/Audio track renaming metadata
+    final_processing_path = dl_path
+    custom_audio_title = await digital_botz.get_audio_metadata(user_id)
+    
+    if custom_audio_title and media.file_size:
+        await rkn_processing.edit("🎵 `Updating internal audio track metadata...`")
+        audio_renamed_path = f"Metadata/audio_{new_filename}"
+        res_audio = await rename_audio_tracks(dl_path, "Metadata", new_audio_title=custom_audio_title)
+        if res_audio and os.path.exists(res_audio):
+            final_processing_path = res_audio
+
     metadata_mode = await digital_botz.get_metadata_mode(user_id)
     if metadata_mode:        
         metadata = await digital_botz.get_metadata_code(user_id)
         if metadata:
             await rkn_processing.edit("I Fᴏᴜɴᴅ Yᴏᴜʀ Mᴇᴛᴀᴅᴀᴛᴀ\n\n__**Pʟᴇᴀsᴇ Wᴀɪᴛ...**__\n**Aᴅᴅɪɴɢ Mᴇᴛᴀᴅᴀᴛᴀ Tᴏ Fɪʟᴇ....**")            
-            if await change_metadata(dl_path, metadata_path, metadata):            
+            if await change_metadata(final_processing_path, metadata_path, metadata):            
                 await rkn_processing.edit("Metadata Added.....")
                 print("Metadata Added.....")
             else:
-                await rkn_processing.edit("Failed to add metadata, uploading original file...")
+                await rkn_processing.edit("Failed to add metadata, uploading processed file...")
                 metadata_mode = False
         else:
-            await rkn_processing.edit("No metadata found, uploading original file...")
+            await rkn_processing.edit("No metadata found, uploading processed file...")
             metadata_mode = False
     else:
         await rkn_processing.edit("`Try To Uploading....`")
+        
     duration = 0
     try:
         parser = createParser(file_path)
@@ -216,6 +228,7 @@ async def upload_doc(bot, update):
     except Exception as e:
         print(f"Error extracting metadata: {e}")
         pass
+        
     ph_path = None
     c_caption = user_data.get('caption', None)
     c_thumb = user_data.get('file_id', None)
@@ -230,6 +243,7 @@ async def upload_doc(bot, update):
              return await rkn_processing.edit(text=f"Yᴏᴜʀ Cᴀᴩᴛɪᴏɴ Eʀʀᴏʀ Exᴄᴇᴩᴛ Kᴇyᴡᴏʀᴅ Aʀɢᴜᴍᴇɴᴛ ●> ({e})")             
     else:
          caption = f"**{new_filename}**"
+         
     if (media.thumbs or c_thumb):
          # downloading thumbnail path
          try:
@@ -249,7 +263,8 @@ async def upload_doc(bot, update):
 
     upload_type = update.data.split("#")[1]
     # Use the correct file path based on metadata mode
-    final_file_path = metadata_path if metadata_mode and os.path.exists(metadata_path) else file_path
+    final_file_path = metadata_path if metadata_mode and os.path.exists(metadata_path) else final_processing_path
+    
     if media.file_size > 2000 * 1024 * 1024:
         # Upload file using unified function for large files
         filw, error = await upload_files(
@@ -280,5 +295,6 @@ async def upload_doc(bot, update):
                 await digital_botz.set_used_limit(user_id, used_remove)
             await remove_path(ph_path, file_path, dl_path, metadata_path)
             return await rkn_processing.edit(f"Upload Error: {error}")
+            
     await remove_path(ph_path, file_path, dl_path, metadata_path)
     return await rkn_processing.edit("Uploaded Successfully....")
