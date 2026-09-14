@@ -196,7 +196,7 @@ async def upload_doc(bot, update):
     if custom_audio_title and media.file_size:
         await rkn_processing.edit("🎵 `Updating internal audio track metadata...`")
         audio_renamed_path = f"Metadata/audio_{new_filename}"
-        res_audio = await rename_audio_tracks(dl_path, "Metadata", new_audio_title=custom_audio_title)
+        res_audio = await rename_audio_tracks(dl_path, "Metadata", audio_title=custom_audio_title)
         if res_audio and os.path.exists(res_audio):
             final_processing_path = res_audio
 
