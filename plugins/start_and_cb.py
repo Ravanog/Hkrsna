@@ -94,7 +94,7 @@ async def features_command(client, message):
         "• /delthumb - ❌ To Delete Current Thumbnail\n"
         "• /setcaption - 📝 To Set A Custom Caption\n"
         "• /seecaption - 🔎 To See Your Custom Caption\n"
-        "• /delcaption - 🗑️ Delete Custom Caption\n"
+        "• /delcaption - 🗑️ Delete Custom Caption\n\n"
 		"<b>🔹 ᴀᴜᴅɪᴏ ᴛᴏᴏʟꜱ</b>\n"
         "• /setaudio - 🎵 Set Default Audio Track Selection\n"
         "• /seeaudio - 🎧 View Current Audio Track Preference\n"
