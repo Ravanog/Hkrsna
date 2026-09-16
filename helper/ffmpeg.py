@@ -1,6 +1,6 @@
 import os
 import asyncio
-import json
+import time, subprocess, json
 from helper.utils import metadata_text
 
 # Global semaphore to queue heavy FFmpeg tasks and protect Koyeb from 100% CPU/RAM spikes
