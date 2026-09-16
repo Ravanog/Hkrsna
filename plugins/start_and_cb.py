@@ -75,7 +75,7 @@ async def add_suffix(client, message):
     await digital_botz.set_suffix(message.from_user.id, suffix)
     await RknDev.edit("__**✅ ꜱᴜꜰꜰɪx ꜱᴀᴠᴇᴅ**__")
 
-from pyrogram import Client, filters
+
 
 @Client.on_message(filters.private & filters.command("hkfeatures"))
 async def features_command(client, message):
@@ -114,7 +114,7 @@ async def features_command(client, message):
     )
     
     await message.reply_text(features_text, disable_web_page_preview=True)
-
+	
 
 @Client.on_message(filters.private & filters.command('delsuffix'))
 async def delete_suffix(client, message):
