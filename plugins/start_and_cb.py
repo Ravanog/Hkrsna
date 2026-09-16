@@ -75,6 +75,47 @@ async def add_suffix(client, message):
     await digital_botz.set_suffix(message.from_user.id, suffix)
     await RknDev.edit("__**✅ ꜱᴜꜰꜰɪx ꜱᴀᴠᴇᴅ**__")
 
+from pyrogram import Client, filters
+
+@Client.on_message(filters.private & filters.command("hkfeatures"))
+async def features_command(client, message):
+    features_text = (
+        "<b>✨ ʙᴏᴛ ғᴇᴀᴛᴜʀᴇs & ᴄᴏᴍᴍᴀɴᴅs ✨</b>\n\n"
+        "<b>🔹 ɢᴇɴᴇʀᴀʟ & ᴄᴏɴꜰɪɢᴜʀᴀᴛɪᴏɴ</b>\n"
+        "• /start - 🚀 Check If The Bot Is Running\n"
+        "• /setprefix - ✏️ Set Your Prefix\n"
+        "• /seeprefix - 🔍 See Your Prefix\n"
+        "• /delprefix - 🗑️ Delete Your Prefix\n"
+        "• /setsuffix - ✒️ Set Your Suffix\n"
+        "• /seesuffix - 👁️ See Your Suffix\n"
+        "• /delsuffix - 🗑️ Delete Your Suffix\n\n"
+        "<b>🔹 ᴍᴇᴅɪᴀ & ᴄᴀᴘᴛɪᴏɴs</b>\n"
+        "• /viewthumb - 🖼️ To View Current Thumbnail\n"
+        "• /delthumb - ❌ To Delete Current Thumbnail\n"
+        "• /setcaption - 📝 To Set A Custom Caption\n"
+        "• /seecaption - 🔎 To See Your Custom Caption\n"
+        "• /delcaption - 🗑️ Delete Custom Caption\n"
+		"<b>🔹 ᴀᴜᴅɪᴏ ᴛᴏᴏʟꜱ</b>\n"
+        "• /setaudio - 🎵 Set Default Audio Track Selection\n"
+        "• /seeaudio - 🎧 View Current Audio Track Preference\n"
+        "• /delaudio - 🗑️ Delete Audio Track Preference\n\n"
+        "<b>🔹 ᴠɪᴅᴇᴏ ᴛᴏᴏʟs</b>\n"
+        "• /ss - 📸 Generate Video Screenshots\n"
+        "• /vs - 🎬 Generate Video Sample / Stream Clip\n\n"
+        "<b>🔹 ᴀᴅᴍɪɴ & sʏsᴛᴇᴍ</b>\n"
+        "• /ban - 🚫 Ban A User\n"
+        "• /unban - ✅ Unban A User\n"
+        "• /banned - 📋 List All Banned Users\n"
+        "• /status - 📊 Get Bot Statistics\n"
+        "• /broadcast - 📢 Send Message To Users\n"
+        "• /logs - 🪵 Get Recent Bot Logs\n"
+        "• /restart - 🔄 Restart The Bot\n"
+        "• /maintenance - 🛠️ Toggle Maintenance Mode"
+    )
+    
+    await message.reply_text(features_text, disable_web_page_preview=True)
+
+
 @Client.on_message(filters.private & filters.command('delsuffix'))
 async def delete_suffix(client, message):
     RknDev = await message.reply_text("Please Wait ...", reply_to_message_id=message.id)
