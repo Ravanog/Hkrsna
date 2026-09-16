@@ -233,8 +233,12 @@ async def _banned_users(_, m: Message):
         return
     await m.reply_text(reply_text, True)
      
-@Client.on_message(filters.command("broadcast") & filters.user(Config.ADMIN) & filters.reply)
+@Client.on_message(filters.command("broadcast") & filters.user(Config.ADMIN))
 async def broadcast_handler(bot: Client, m: Message):
+    # Check if the admin actually replied to a message
+    if not m.reply_to_message:
+        return await m.reply_text("<b>⚠️ Pʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴛᴏ ʙʀᴏᴀᴅᴄᴀsᴛ ɪᴛ!</b>")
+
     await bot.send_message(Config.LOG_CHANNEL, f"{m.from_user.mention} or {m.from_user.id} Iꜱ ꜱᴛᴀʀᴛᴇᴅ ᴛʜᴇ Bʀᴏᴀᴅᴄᴀꜱᴛ......")
     all_users = await digital_botz.get_all_users()
     broadcast_msg = m.reply_to_message
@@ -244,6 +248,7 @@ async def broadcast_handler(bot: Client, m: Message):
     success = 0
     start_time = time.time()
     total_users = await digital_botz.total_users_count()
+    
     async for user in all_users:
         sts = await send_msg(user['_id'], broadcast_msg)
         if sts == 200:
@@ -255,6 +260,7 @@ async def broadcast_handler(bot: Client, m: Message):
         done += 1
         if not done % 20:
            await sts_msg.edit(f"Bʀᴏᴀᴅᴄᴀꜱᴛ Iɴ Pʀᴏɢʀᴇꜱꜱ: \nTᴏᴛᴀʟ Uꜱᴇʀꜱ {total_users} \nCᴏᴍᴩʟᴇᴛᴇᴅ: {done} / {total_users}\nSᴜᴄᴄᴇꜱꜱ: {success}\nFᴀɪʟᴇᴅ: {failed}")
+           
     completed_in = datetime.timedelta(seconds=int(time.time() - start_time))
     await sts_msg.edit(f"Bʀᴏᴀᴅᴄᴀꜱᴛ Cᴏᴍᴩʟᴇᴛᴇᴅ: \nCᴏᴍᴩʟᴇᴛᴇᴅ Iɴ `{completed_in}`.\n\nTᴏᴛᴀʟ Uꜱᴇʀꜱ {total_users}\nCᴏᴍᴩʟᴇᴛᴇᴅ: {done} / {total_users}\nSᴜᴄᴄᴇꜱꜱ: {success}\nFᴀɪʟᴇᴅ: {failed}")
            
@@ -264,7 +270,7 @@ async def send_msg(user_id, message):
         return 200
     except FloodWait as e:
         await asyncio.sleep(e.value)
-        return send_msg(user_id, message)
+        return await send_msg(user_id, message) # Added missing 'await'
     except InputUserDeactivated:
         logger.info(f"{user_id} : Dᴇᴀᴄᴛɪᴠᴀᴛᴇᴅ")
         return 400
