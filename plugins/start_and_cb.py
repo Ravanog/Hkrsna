@@ -326,9 +326,26 @@ async def cb_handler(client, query: CallbackQuery):
             text=rkn.HARIKUSHAL,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup([[
+			 InlineKeyboardButton("ᴀᴜᴅɪᴏ ᴛᴏᴏʟ", callback_data = "audio_tool"),
+			 InlineKeyboardButton("ᴠɪᴅᴇᴏ ᴛᴏᴏʟ", callback_data = "video_tool")
+			],[
              InlineKeyboardButton("ʙᴀᴄᴋ", callback_data = "help")]])) 
-      
-      
+		
+	elif data == "audio_tool":
+        await query.message.edit_text(
+            text=rkn.AUDIO_TOOL,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup([[
+             InlineKeyboardButton("ʙᴀᴄᴋ", callback_data = "harikushal")]])) 
+
+	elif data == "video_tool":
+        await query.message.edit_text(
+            text=rkn.VIDEO_TOOL,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup([[
+             InlineKeyboardButton("ʙᴀᴄᴋ", callback_data = "harikushal")]])) 
+	
+
     elif data == "caption":
         await query.message.edit_text(
             text=rkn.CAPTION,
