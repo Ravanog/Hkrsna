@@ -7,13 +7,14 @@ from helper.utils import metadata_text
 FFMPEG_SEMAPHORE = asyncio.Semaphore(1)
 
 
-async def rename_audio_tracks(video_file, output_directory, audio_title="Powered by @Hari_Moviez"):
+async def rename_audio_tracks(video_file, output_file, audio_title="Powered by @Hari_Moviez"):
     """
-    Updates internal audio track metadata using the user's custom title safely via semaphore queue.
+    Updates internal audio track metadata using the user's custom title safely via semaphore queue,
+    saving directly to the user's chosen output filename.
     """
     async with FFMPEG_SEMAPHORE:
-        os.makedirs(output_directory, exist_ok=True)
-        output_file = os.path.join(output_directory, f"audio_edited_{os.path.basename(video_file)}")
+        # Ensure the target directory exists
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
         
         command = [
             "ffmpeg",
@@ -37,9 +38,10 @@ async def rename_audio_tracks(video_file, output_directory, audio_title="Powered
             if os.path.exists(output_file) and os.path.getsize(output_file) > 0:
                 return output_file
         except Exception as e:
-            print(f"FFmpeg Audio Custom Tag Error: {e}")
+            print(f"Audio Custom Tag Error: {e}")
             
         return None
+
 
 
 async def generate_video_sample(video_file, output_directory, start_time=60, duration=30):
